@@ -1,0 +1,23 @@
+main {
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  gap: 2vh;
+  width: 40vw;
+}
+
+main * {
+  width: 10vh;
+  height: 10vh;
+  background-color: hsl(39, 72%, 88%);
+  border-radius: 0.5rem;
+}
+
+.snake {
+  background-color: hsl(93, 62%, 46%);
+}
+
+.fruit {
+  background-color: rgb(235, 52, 68);
+}
