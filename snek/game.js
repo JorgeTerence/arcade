@@ -1,7 +1,10 @@
 const main = document.querySelector("main");
 
+document.addEventListener("alpine:init", () => {
+  Alpine.store("direction", [0, 0]);
+});
+
 const SIZE = 7; // calculate based on window width and height;
-let direction = [0, 0];
 
 const wait = (t) => new Promise((r) => setTimeout(r, t));
 const rand = (n) => Math.round(Math.random() * n);
@@ -16,17 +19,9 @@ const grid = (d) =>
     .map(() => document.createElement("i"));
 
 class Queue {
-  constructor(value) {
-    this.items = value;
-  }
-
-  enqueue(item) {
-    return this.items.push(item);
-  }
-
-  dequeue() {
-    return this.items.shift();
-  }
+  constructor(value) { this.items = value; }
+  enqueue(item) { return this.items.push(item); }
+  dequeue() { return this.items.shift(); }
 }
 
 class Snake extends Queue {
@@ -44,8 +39,6 @@ class Snake extends Queue {
     this.enqueue(coords);
     this.head = coords;
     main.children.item(pos(coords)).classList.add("snake");
-
-    console.log(`🐍 ${coords}`);
   }
 
   grow() {
@@ -70,20 +63,18 @@ class Fruit {
     this.coords = next;
     main.children.item(pos(next)).classList.add("fruit");
 
-    console.log(`🍎 ${next}`);
-
     return next;
   }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
+async function game() {
   main.append(...grid(SIZE));
 
   const snake = new Snake(randCoord());
   const fruit = new Fruit(snake.items);
 
   while (true) {
-    const next = add(snake.head, direction);
+    const next = add(snake.head, Alpine.store("direction"));
 
     const offGrid = next.some((n) => n >= SIZE || n < 0);
     const snakeCrash = snake.items
@@ -105,15 +96,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await wait(300);
   }
-});
+}
 
-document.addEventListener("keydown", (e) => {
-  const directions = {
-    ArrowUp: [0, -1],
-    ArrowDown: [0, 1],
-    ArrowLeft: [-1, 0],
-    ArrowRight: [1, 0],
-  };
-
-  if (e.key.includes("Arrow")) direction = directions[e.key];
-});
+function restart() {
+  // main.innerHTML = '';
+  // game();
+  // somehow break the loop
+}

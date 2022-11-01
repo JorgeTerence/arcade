@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <script defer src="game.js"></script>
-  <title>Snek 🐍</title>
-</head>
-<body>
-  <h1>Snake</h1> <!-- Add animation of snek crawling -->
-  <hr>
-  <main></main>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="game.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <title>Snek 🐍</title>
+  </head>
+  <body
+    x-data="{ welp: '🤷 need this to work' }"
+    @keydown.up="$store.direction = [0, -1]"
+    @keydown.down="$store.direction = [0, 1]"
+    @keydown.left="$store.direction = [-1, 0]"
+    @keydown.right="$store.direction = [1, 0]"
+  >
+    <h1>Snake</h1>
+    <!-- Add animation of snek crawling -->
+    <hr />
+    <main x-data="{ direction: [0,0] }" x-init="game"></main>
+    <button x-data="{}" x-on:click="restart">Restart</button>
+  </body>
 </html>
